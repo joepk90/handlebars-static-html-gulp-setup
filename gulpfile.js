@@ -18,7 +18,9 @@ var gulp = require('gulp');
 		handlebars = require('gulp-compile-handlebars'),
 		rename = require('gulp-rename'),
 		filelist = require('gulp-filelist'),
-		fs = require('fs');
+		fs = require('fs'),
+		// typescript = require('gulp-tsc'),
+		ts = require('gulp-typescript');
 
 		basepaths = {
 		        src: 'source',
@@ -28,9 +30,12 @@ var gulp = require('gulp');
 		    paths = {
 		        js: {
 		            src: basepaths.src + '/js',
-		            dest: basepaths.dest + 'js',
+		            dest: basepaths.dest + '/js',
 		            node: 'node_modules'
 		            // bower: 'bower_components'
+		        },
+						ts: {
+		            src: basepaths.src + '/js/ts'
 		        },
 		        css: {
 		            src: basepaths.src + '/sass',
@@ -152,6 +157,23 @@ gulp.task('vendor', function () {
         .pipe(gulp.dest(paths.js.dest));
 });
 
+
+/*
+Scripts - Compile Typescript
+*/
+
+gulp.task('typescript', function () {
+	// console.log(paths.ts.src + '/**/*.ts');
+	// console.log(paths.ts.dest);
+    gulp.src(paths.ts.src + '/**/*.ts')
+        .pipe(ts({
+            noImplicitAny: true
+        }))
+
+        .pipe(gulp.dest(paths.ts.src));
+});
+
+
 /*
  Scripts - Concat and Uglify
  */
@@ -199,11 +221,12 @@ gulp.task('svg', function() {
 });
 
 
-gulp.task("default", ['createFileIndex', 'compile', 'styles', 'hint', 'scripts', 'svg'], function() {
+gulp.task("default", ['createFileIndex', 'compile', 'styles', 'typescript', 'hint', 'scripts', 'svg'], function() {
 	gulp.watch('filelist.json',{cwd:'./'},['compile']);
 	gulp.watch(paths.templates.src + '/*.handlebars',{cwd:'./'}, ['createFileIndex']);
 	gulp.watch(paths.templates.src + '/**/*.handlebars',{cwd:'./'}, ['compile']);
 	gulp.watch(paths.css.src + '/**/*.scss', ['styles']);
+	gulp.watch(paths.ts.src + '/**/*.ts', ['typescript']);
 	gulp.watch(paths.js.src + '/**/*.js', ['hint']);
 	gulp.watch(paths.js.src + '/**/*.js', ['scripts']);
 	gulp.watch(paths.svgs.src + '/**/*.svg', ['svg']);
