@@ -22,6 +22,11 @@ var gulp = require('gulp');
 		// typescript = require('gulp-tsc'),
 		ts = require('gulp-typescript');
 
+
+		var imagemin = require('gulp-imagemin'),
+		    imageminPngquant = require('imagemin-pngquant'),
+		    imageminJpegcompress = require('imagemin-jpeg-recompress');
+
 		basepaths = {
 		        src: 'source',
 		        dest: 'dist'
@@ -201,6 +206,29 @@ gulp.task('clean-styles', function () {
     return gulp.src('style.css', {read: false})
         .pipe(clean());
 });
+
+// Images
+gulp.task('images', function () {
+
+  return gulp.src(paths.image.src)
+  .pipe(plumber(function (err) {
+    console.log('Images Task Error');
+    console.log(err);
+    this.emit('end');
+  }))
+  .pipe(imagemin(
+    [
+      imagemin.gifsicle(),
+      imagemin.jpegtran(),
+      imagemin.optipng(),
+      imagemin.svgo(),
+      imageminPngquant(),
+      imageminJpegcompress()
+    ]
+  ))
+  .pipe(gulp.dest(paths.image.dest))
+});
+
 
 /*
  SVG - Sprite and Minify
