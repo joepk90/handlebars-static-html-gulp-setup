@@ -22,7 +22,7 @@ var gulp = require('gulp');
 
 		basepaths = {
 		        src: 'source',
-		        dest: ''
+		        dest: 'dist'
 		    },
 
 		    paths = {
@@ -34,10 +34,10 @@ var gulp = require('gulp');
 		        },
 		        css: {
 		            src: basepaths.src + '/sass',
-		            dest: ''
+		            dest: basepaths.dest
 		        },
 		        templates: {
-		          src: basepaths.src + '/templates',
+		          src: basepaths.src + '/templates/',
 		          dest: basepaths.dest + 'templates'
 		        },
 		        images: {
@@ -53,7 +53,7 @@ var gulp = require('gulp');
 
 
 gulp.task("createFileIndex", function(){
-		gulp.src(['./src/*.*'])
+		gulp.src([paths.templates.src + '/*.*'])
       .pipe(filelist('filelist.json', { flatten: true, removeExtensions: true }))
       .pipe(gulp.dest("./"));
 });
@@ -66,7 +66,7 @@ gulp.task('compile', function () {
 	},
 	options = {
 		ignorePartials: true, //ignores the unknown footer2 partial in the handlebars template, defaults to false
-		batch : ['./src/partials'],
+		batch : [paths.templates.src + '/partials'],
 		helpers : {
 			capitals : function(str){
 				return str.toUpperCase();
@@ -79,7 +79,7 @@ gulp.task('compile', function () {
 		}
 	}
 	var compileTemplate = function(templateName) {
-		return gulp.src('src/' + templateName + '.handlebars')
+		return gulp.src(paths.templates.src + templateName + '.handlebars')
 			.pipe(handlebars(templateData, options))
 			.pipe(rename(templateName + '.html'))
 			.pipe(gulp.dest('dist'));
@@ -199,11 +199,10 @@ gulp.task('svg', function() {
 });
 
 
-gulp.task("default", ['createFileIndex', 'compile', 'templates', 'styles', 'hint', 'scripts', 'svg'], function() {
-	gulp.watch('src/*.handlebars',{cwd:'./'}, ['createFileIndex'])
-	gulp.watch('src/**/*.handlebars',{cwd:'./'}, ['compile'])
+gulp.task("default", ['createFileIndex', 'compile', 'styles', 'hint', 'scripts', 'svg'], function() {
 	gulp.watch('filelist.json',{cwd:'./'},['compile']);
-	gulp.watch(paths.templates.src + '/**/*.scss', ['templates']);
+	gulp.watch(paths.templates.src + '/*.handlebars',{cwd:'./'}, ['createFileIndex']);
+	gulp.watch(paths.templates.src + '/**/*.handlebars',{cwd:'./'}, ['compile']);
 	gulp.watch(paths.css.src + '/**/*.scss', ['styles']);
 	gulp.watch(paths.js.src + '/**/*.js', ['hint']);
 	gulp.watch(paths.js.src + '/**/*.js', ['scripts']);

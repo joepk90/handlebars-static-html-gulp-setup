@@ -1,13 +1,11 @@
 {
-  "name": "gulp-compile-handlebars-testing",
+  "name": "Glen Park Responsive Handlebars Build",
   "version": "0.0.1",
-  "description": "Compile Handlebars templates to file via gulp plugin - taken from the work of @kaanon",
+  "description": "Source Files for Glen Park Responsive Build using 'gulp-compile-handlebars-testing': Compile Handlebars templates to file via gulp plugin - taken from the work of @kaanon",
   "license": "MIT",
-  "repository": "brenmurrell/handlebars-static-html-generator",
+  "repository": "",
   "author": {
-    "name": "Bren Murrell",
-    "email": "bren@moon.co.nz",
-    "url": "http://brenmurrell.github.io"
+    "name": "Park-Kennaby",
   },
   "engines": {
     "node": ">=0.10.0"
@@ -18,15 +16,7 @@
   "files": [
     "index.js"
   ],
-  "keywords": [
-    "gulp",
-    "handlebars",
-    "gulp-plugin",
-    "template",
-    "compile",
-    "html",
-    "rendering"
-  ],
+  "keywords": [],
   "dependencies": {
     "gulp-util": "^3.0.3",
     "through2": "^0.6.3",
@@ -57,7 +47,6 @@
     "gulp-uglify": "^1.5.1",
     "gulp-watch": "^4.3.5",
     "gulp-wrap": "^0.13.0",
-    "handlebars": "^4.0.11",
     "jshint": "^2.9.1",
     "jshint-stylish": "^2.1.0",
     "mocha": "*"
