@@ -19,9 +19,7 @@ var gulp = require('gulp');
 		rename = require('gulp-rename'),
 		filelist = require('gulp-filelist'),
 		fs = require('fs'),
-		// typescript = require('gulp-tsc'),
 		ts = require('gulp-typescript');
-
 
 		var imagemin = require('gulp-imagemin'),
 		    imageminPngquant = require('imagemin-pngquant'),
@@ -210,7 +208,7 @@ gulp.task('clean-styles', function () {
 // Images
 gulp.task('images', function () {
 
-  return gulp.src(paths.image.src)
+  return gulp.src(paths.images.src + '/**/*.{png,jpeg,jpg,svg,gif}')
   .pipe(plumber(function (err) {
     console.log('Images Task Error');
     console.log(err);
@@ -226,7 +224,7 @@ gulp.task('images', function () {
       imageminJpegcompress()
     ]
   ))
-  .pipe(gulp.dest(paths.image.dest))
+  .pipe(gulp.dest(paths.images.dest))
 });
 
 
@@ -249,7 +247,7 @@ gulp.task('svg', function() {
 });
 
 
-gulp.task("default", ['createFileIndex', 'compile', 'styles', 'typescript', 'hint', 'scripts', 'svg'], function() {
+gulp.task("default", ['createFileIndex', 'compile', 'images', 'styles', 'typescript', 'hint', 'scripts', 'svg'], function() {
 	gulp.watch('filelist.json',{cwd:'./'},['compile']);
 	gulp.watch(paths.templates.src + '/*.handlebars',{cwd:'./'}, ['createFileIndex']);
 	gulp.watch(paths.templates.src + '/**/*.handlebars',{cwd:'./'}, ['compile']);
@@ -258,4 +256,5 @@ gulp.task("default", ['createFileIndex', 'compile', 'styles', 'typescript', 'hin
 	gulp.watch(paths.js.src + '/**/*.js', ['hint']);
 	gulp.watch(paths.js.src + '/**/*.js', ['scripts']);
 	gulp.watch(paths.svgs.src + '/**/*.svg', ['svg']);
+	gulp.watch(paths.images.src + '/**/*.{png,jpeg,jpg,svg,gif}', ['images']);
 });

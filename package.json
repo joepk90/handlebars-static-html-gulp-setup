@@ -1,5 +1,5 @@
 {
-  "name": "Glen Park Responsive Handlebars Build",
+  "name": "glen-park-responsive-handlebars-build",
   "version": "0.0.1",
   "description": "Source Files for Glen Park Responsive Build using 'gulp-compile-handlebars-testing': Compile Handlebars templates to file via gulp plugin - taken from the work of @kaanon",
   "license": "MIT",
